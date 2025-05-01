@@ -1,0 +1,23 @@
+{
+  "name": "glslinclude",
+  "version": "1.0.0",
+  "description": "A js typescript module to resolve includes. It uses the glsl-parser to create the AST, and rebuild the shader page after the include. It only includes the needed piece of codes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenjaminRap/GLSLInclude.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenjaminRap/GLSLInclude/issues"
+  },
+  "homepage": "https://github.com/BenjaminRap/GLSLInclude#readme",
+  "dependencies": {
+    "@shaderfrog/glsl-parser": "^6.0.2"
+  }
+}

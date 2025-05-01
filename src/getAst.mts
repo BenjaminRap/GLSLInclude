@@ -1,0 +1,7 @@
+import { parse, generate } from '@shaderfrog/glsl-parser';
+
+const program = parse('float a = 1.0;');
+console.log(program);
+
+const transpiled = generate(program);
+console.log(transpiled);
