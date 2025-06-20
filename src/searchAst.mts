@@ -2,7 +2,7 @@ import { Path, NodeVisitors, visit } from "@shaderfrog/glsl-parser/ast/visit.js"
 import { getAst } from "./getAst.mjs"
 import { Program, AstNode } from '@shaderfrog/glsl-parser/ast/ast-types.js'
 
-let	asts : Program[] = [];
+let	asts : Map<string, Program> = new Map<string, Program>();
 //
 // const visitors : NodeVisitors = {
 // 	function_call: {
@@ -35,12 +35,16 @@ function	parseInclude(line : string) : { functions : string[], file: string }
 
 async function	processFile(directory: string, file: string) : Promise<void>
 {
-	const	ast : Program | null = await getAst(directory + file);
+	const	fullPath : string = directory + file;
+
+	if (asts.has(fullPath))
+		return ;
+	const	ast : Program | null = await getAst(fullPath);
 
 	if (ast === null)
 		return ;
 
-	asts.push(ast);
+	asts.set(fullPath, ast);
 	ast.program.forEach(async (node : AstNode) => {
 		if (node.type !== "preprocessor"
 			|| !node.line.startsWith("#include"))
@@ -55,7 +59,7 @@ async function	processFile(directory: string, file: string) : Promise<void>
 		if (ast === null)
 			return ;
 
-		asts.push(ast);
+		asts.set(fullPath, ast);
 	});
 }
 
