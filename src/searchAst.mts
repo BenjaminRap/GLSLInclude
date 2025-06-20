@@ -20,7 +20,13 @@ let	asts : Map<string, Program> = new Map<string, Program>();
 // console.log(JSON.stringify(ast, null, 2));
 // visit(ast, visitors);
 
-function	parseInclude(line : string) : { functions : string[], file: string }
+
+type	Include = {
+	functions : string[],
+	file: string
+};
+
+function	parseInclude(line : string) :  Include | null
 {
 	const	regex : RegExp = /#include \{ ([a-zA-Z0-9_ ,]+) \} from "([a-zA-Z0-9_./]+)";/;
 	const	matches : string[] | null= line.match(regex);
@@ -51,15 +57,13 @@ async function	processFile(directory: string, file: string) : Promise<void>
 		{
 			return ;
 		}
-		const include = parseInclude(node.line);
 
+		const	include : Include | null = parseInclude(node.line);
 
-		const	ast : Program | null = await getAst("./shaders/" + include.file);
-
-		if (ast === null)
+		if (include === null)
 			return ;
 
-		asts.set(fullPath, ast);
+		await processFile(directory, include.file);
 	});
 }
 
