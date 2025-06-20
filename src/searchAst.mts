@@ -41,13 +41,21 @@ async function	processFile(directory: string, file: string) : Promise<void>
 		return ;
 
 	asts.push(ast);
-	ast.program.forEach((node : AstNode) => {
+	ast.program.forEach(async (node : AstNode) => {
 		if (node.type !== "preprocessor"
 			|| !node.line.startsWith("#include"))
 		{
 			return ;
 		}
-		console.log(parseInclude(node.line));
+		const include = parseInclude(node.line);
+
+
+		const	ast : Program | null = await getAst("./shaders/" + include.file);
+
+		if (ast === null)
+			return ;
+
+		asts.push(ast);
 	});
 }
 

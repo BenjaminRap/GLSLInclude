@@ -1,4 +1,4 @@
-#include { abc, utils, truc } from "./utils";
+#include { abc, utils, truc } from "./utils.glsl";
 void main() {
 
 }
