@@ -1,6 +1,7 @@
-import { parse, generate } from '@shaderfrog/glsl-parser/index.js';
+import { parse } from '@shaderfrog/glsl-parser/index.js';
 import { Program } from '@shaderfrog/glsl-parser/ast/ast-types.js'
 import { ParserOptions } from '@shaderfrog/glsl-parser/parser/parser.js'
+import { readFile } from "./utils.mjs";
 
 const	options : ParserOptions = {
 	stage: 'fragment',
@@ -10,13 +11,11 @@ const	options : ParserOptions = {
 	grammarSource: "shader.frag",
 }
 
-const	file : string = `
-#include "test";
-void main() {
-
-}`;
-
-export function	getAst() : Program
+export async function	getAst(url : string) : Promise<Program | null>
 {
-	return (parse(file, options));
+	const	content : string | null = await readFile(url);
+
+	if (content === null)
+		return (null);
+	return (parse(content, options));
 }
