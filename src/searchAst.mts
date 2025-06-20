@@ -1,15 +1,20 @@
+import { Path, NodeVisitors, visit } from "@shaderfrog/glsl-parser/ast/visit.js";
 import { getAst } from "./getAst.mjs"
 import { Program, AstNode } from '@shaderfrog/glsl-parser/ast/ast-types.js'
 
 let	ast : Program = getAst();
+//
+const visitors : NodeVisitors = {
+	function_call: {
+		enter: (path : Path<AstNode>) => {
+			console.log("fonction call 1");
+		},
+		exit: (path : Path<AstNode>) => {
 
-function	searchFunctionInAst(name : string) : void
-{
-	ast.program.forEach((node : AstNode) => {
-		if (node.type == 'function')
-			console.log("founded !");
-	})
+		},
+	}
 }
 
 // searchFunctionInAst("plot");
-console.log(JSON.stringify(ast, null, 2));
+// console.log(JSON.stringify(ast, null, 2));
+visit(ast, visitors);

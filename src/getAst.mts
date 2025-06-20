@@ -10,7 +10,11 @@ const	options : ParserOptions = {
 	grammarSource: "shader.frag",
 }
 
-const	file : string = `void main() {}`;
+const	file : string = `
+#include "test";
+void main() {
+
+}`;
 
 export function	getAst() : Program
 {
